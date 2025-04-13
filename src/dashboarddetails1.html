@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="CSS/site.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Senergy</title>
+<link rel="icon" href="images/logo.png">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" style="color:white; font-size: 30px;" href="maindashboard.html"><span> <img height="45px" width="45px" src="images/logo.png"> Senergy</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="ourmission.html">Our Mission</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link text-white" href="aboutus.html">Our Team</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="login.html">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="page-container">
+
+        <div class="sidebar-container">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <div class="sidebar">
+                  <nav class="mt-2 total-menu">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- <li class="nav-item">
+                            <button class="normal-side-menu-arrow" onclick="toggleMenuSize()"><span><img src="images/left.png"></span></button>
+                        </li> -->
+                        <li class="nav-item">
+                            <button class="dashboard-button" onclick="toggleDropdown('energy-dropdown')"><span> <img style="margin-bottom: 8px; margin-right: 2px;" height="30px" src="images/renewable-energy.png" alt="">  Energy Dashboard</span></button>
+                            <div id="energy-dropdown" class="dropdown-content">
+                                <button onclick="displayChart('energy-monthend', 'units')">Month End</button>
+                                <button onclick="displayChart('energy-yeartodate', 'units')">Year-to-Date</button>
+                                <button onclick="displayChart('energy-rollingtwelvemonths', 'units')">Rolling Twelve Months</button>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <button class="dashboard-button" onclick="toggleDropdown('natural-gas-dropdown')"><span> <img style="margin-bottom: 15px; margin-right: 5px;" height="30px" src="images/gas.png" alt="">  Natural Gas Dashboard</span></button>
+                            <div id="natural-gas-dropdown" class="dropdown-content">
+                                <button onclick="displayChart('naturalgas-monthend', 'units')">Month End</button>
+                                <button onclick="displayChart('naturalgas-yeartodate', 'units')">Year-to-Date</button>
+                                <button onclick="displayChart('naturalgas-rollingtwelvemonths', 'units')">Rolling Twelve Months</button>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <button class="dashboard-button" onclick="toggleDropdown('electricity-dropdown')"><span> <img height="30px" src="images/electricity.png" alt="">  Electricity Dashboard</span></button>
+                            <div id="electricity-dropdown" class="dropdown-content">
+                                <button onclick="displayChart('electricity-monthend', 'units')">Month End</button>
+                                <button onclick="displayChart('electricity-yeartodate', 'units')">Year-to-Date</button>
+                                <button onclick="displayChart('electricity-rollingtwelvemonths', 'units')">Rolling Twelve Months</button>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <button class="dashboard-button" onclick="toggleDropdown('water-dropdown')"><span> <img height="30px" src="images/water.png" alt="">  Water Dashboard</span></button>
+                            <div id="water-dropdown" class="dropdown-content">
+                                <button onclick="displayChart('water-monthend', 'units')">Month End</button>
+                                <button onclick="displayChart('water-yeartodate', 'units')">Year-to-Date</button>
+                                <button onclick="displayChart('water-rollingtwelvemonths', 'units')">Rolling Twelve Months</button>
+                            </div>
+                        </li>
+                    </ul>
+                  </nav>
+                </div>
+            </aside>
+        </div>
+        <div class="main-content">
+            <div class="dashboardDetailsBody">
+                <h1>Interactive Dashboard</h1>
+
+                <div class="properties-container mb-5">
+                    <div id="property1" class="property-item" onclick="selectProperty('property1', '123 Main St', 75, 120, 150, 10, '$5,000', '200 kWh')">
+                        <input type="checkbox" class="property-checkbox" data-property="property1"/>
+                        <h6>123 Main St, Sustainability City, SC 98765</h6>
+                    </div>
+                    <!-- Property 2 -->
+                    <div id="property2" class="property-item" onclick="selectProperty('property2', '456 Elm St', 85, 110, 135, 8, '$6,500', '250 kWh')">
+                        <input type="checkbox" class="property-checkbox" data-property="property2"/>
+                        <h6>456 Elm St, Queens, NY 11378</h6>
+                        
+                    </div>
+                    <!-- Property 3 -->
+                    <div id="property3" class="property-item" onclick="selectProperty('property3', '789 Oak St', 65, 130, 115, 12, '$4,000', '300 kWh')">
+                        <input type="checkbox" class="property-checkbox" data-property="property3"/>
+                        <h6>789 Oak St, Bronx, NY 10903</h6>
+                    </div>
+                </div>
+                
+                <!-- Chart container will be dynamically created here -->
+            </div>
+        </div>
+    </div>
+    
+<script src="JS/dashboarddetails.js"></script>    
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

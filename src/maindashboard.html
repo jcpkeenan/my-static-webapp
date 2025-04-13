@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="CSS/site.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Senergy</title>
+<link rel="icon" href="images/logo.png">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" style="color:white; font-size: 30px;" href="#"><span> <img height="45px" width="45px" src="images/logo.png"> Senergy</span></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="ourmission.html">Our Mission</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link text-white" href="aboutus.html">Our Team</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="login.html">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <style>
+            .savings-container {
+                display: flex;
+                margin-top: 20px;
+                margin-right: 25px;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%; /* Ensure the container takes full width */
+            }
+
+            .value {
+                margin: 0; /* Remove default paragraph margin */
+            }
+
+            .metric-container{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%; /* Ensure the container takes full width */
+                position: relative;
+            }
+            .property.selected {
+                background-color: #e0f0ff; /* Light blue background */
+                border: 2px solid #0056a3; /* Blue border */
+            }
+
+            .checkbox-alert{
+                display: flex;         
+                align-items: center;   
+                gap: 65px;  
+            }
+
+            input[type="checkbox"] {
+                transform: scale(1.2);    /* Make the checkbox bigger */
+                border-width: 8px;        /* Increase the thickness of the checkbox border */
+                border-color: #000;
+                margin-right: 15px;       /* Set the color of the border */
+                height: 30px;             /* Set height */
+                width: 30px;              /* Set width */
+                cursor: pointer;         /* Add a pointer cursor when hovering */
+            }
+            .alert-message {
+                display: flex;         
+                align-items: center;   
+                gap: 20px;
+            }
+            .property-title {
+                display: flex;                /* Enable flexbox layout */
+                justify-content: space-between;  /* Distribute the items equally */
+                align-items: center;          /* Vertically align items in the center */
+                width: 100%;  
+            }
+            .title-checkbox{
+                margin-right: 10px;
+            }
+
+            .alert-container {
+            background-color: #FEF2F2;
+            border-radius: 65px;
+            border: red;
+            border-width: 5px;
+            padding: 10px 5px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .horizontal-stack {
+            display: flex;
+            align-items: center;
+            vertical-align:middle;
+            gap: 5px;
+        }
+        
+        .energy-alert {
+            font-size: 12px;
+            color: #DC2626;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+        }
+        .bodycontainer{
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Tooltip styling */
+        .alert-container .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: #2078b3;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the alert container */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+        }
+        
+        /* Add a little arrow pointing down */
+        .alert-container .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #0056a3 transparent transparent transparent;
+        }
+        
+        /* Show the tooltip when hovering over the alert container */
+        .alert-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .metric .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: #2078b3;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the alert container */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+        }
+        
+        /* Add a little arrow pointing down */
+        .metric .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #0056a3 transparent transparent transparent;
+        }
+        
+        /* Show the tooltip when hovering over the alert container */
+        .metric:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+
+        </style>
+    </header>
+
+    <div class="mainbody">
+        <div class="left-panel">
+            <!-- Customer Name -->
+            <div class="property-title">
+                <div class="customer-name">The Briarwood Organization</div>
+                <a class="btn btn-primary title-button" href="dashboarddetails1.html" id="goToDashboardButton">Go to Dashboard</a>
+                <div class="alert-message title-checkbox">
+                    <label for="selectAllCheckbox">Select all properties</label>
+                    <input type="checkbox" id="selectAllCheckbox"/>
+                </div>
+            </div>
+    
+            <!-- Property 1 -->
+            <div id="property1" class="property selected" onclick="selectProperty('property1', '123 Main St', '75/A', 120, 150, 10, '$5,000', '$1,200')">
+                <h3>123 Main St</h3>
+                <div class="checkbox-alert">
+                    <div class="alert-message">
+                        <div class="alert-container" onclick="openhighenergymodal()">
+                             <!-- This is the tooltip that will appear on hover -->
+                            <div class="tooltip">Click to see more details.</div>
+                            <div class="horizontal-stack">
+                                <img src="images/danger.png" height="25px"/>
+                                <span class="energy-alert">High Energy Usage!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="checkbox" class="property-checkbox" data-property="property1" id="property1Checkbox"/>
+                </div>
+            </div>
+            <!-- Property 2 -->
+            <div id="property2" class="property" onclick="selectProperty('property2', '456 Elm St', '85/B', 110, 135, 8, '$6,500', '$2,500')">
+                <h3>456 Elm St</h3>
+                <div class="checkbox-alert">
+                    <div class="alert-message">
+                        <img src="images/danger.png" height="0px"/>
+                        <p class="alerts"></p>
+                    </div>
+                </div>
+                <input type="checkbox" class="property-checkbox" data-property="property2"/>
+            </div>
+            <!-- Property 3 -->
+            <div id="property3" class="property" onclick="selectProperty('property3', '789 Oak St', '65/C', 130, 115, 12, '$4,000', '$3,000')">
+                <h3>789 Oak St</h3>
+                <div class="checkbox-alert">
+                    <div class="alert-message">
+                        <div class="alert-container" onclick="openhighwatermodal()">
+                             <!-- This is the tooltip that will appear on hover -->
+                            <div class="tooltip">Click to see more details.</div>
+                            <div class="horizontal-stack">
+                                <img src="images/danger.png" height="25px"/>
+                                <span class="energy-alert">High Water Usage!</span>
+                            </div>
+                        </div>
+
+                        <p class="alerts"></p>
+                    </div>
+                    <input type="checkbox" class="property-checkbox" data-property="property3" id="property3Checkbox"/>
+                </div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <h2>Key Metrics</h2>
+            <div class="metric">
+                <div class="metric-container">
+                    <h5 style="color: #1f77b4;">Overall EnergyStar Score/Rating:</h5>
+                    <img height="25px" src="images/check.png" title="Great Job on saving Energy!"/>
+                </div>
+                <p class="value" id="energy-star">75/A</p>
+            </div>
+            <div class="metric">
+                <div class="metric-container" onclick="openOverAllEnergy()">
+                    <div class="tooltip">Energy cost over budget see recomendation!!</div>
+                    <h5 style="color: #1f77b4;">Energy Use Intensity (EUI):</h5>
+                    <img height="25px" src="images/danger.png"/>
+                </div>
+                <p class="value" id="eui">120 kBTU/sqft</p>
+            </div>
+            <div class="metric">
+                <div class="metric-container">
+                    <h5 style="color: #1f77b4;">Water Use Intensity (WUI):</h5>
+                    <img height="25px" src="images/check.png" title="Energy cost over budget see recomendation!!"/>
+                </div>
+                <p class="value" id="wui">150 gal/sqft</p>
+            </div>
+            <div class="metric">
+                <div class="metric-container">
+                    <h5 style="color: #1f77b4;">Greenhouse Gas Emissions (tons):</h5>
+                    <img height="25px" src="images/check.png" title="Good job on saving gas emission!"/>
+                </div>
+                <p class="value" id="ghg">10 tons</p>
+            </div>
+            <div class="metric">
+                <h5 style="color: #1f77b4;">Energy Cost  vs Budget (YTD):</h5>
+                <!-- <button class="toggle-button" onclick="toggleValue('energy-savings', '$5,000', '200 kWh')">Units/$</button> -->
+                <div class="savings-container">
+                    <p class="value" id="energy-savings">$5,000</p>
+                    <img height="25px" src="images/check.png" alt="check"/>
+                </div>
+            </div>
+            <div class="metric" onclick="openwatersavingmodal()">
+                <h5 style="color: #1f77b4;">Water Cost vs Budget (YTD):</h5>
+                <div class="tooltip">Water cost over budget see recommendations!!</div>
+                <div class="savings-container">
+                    <p class="value" id="water-savings">$1,200</p>
+                    <img height="25px" src="images/danger.png" alt="check"/>
+                </div>
+            </div>
+    
+            <!-- Pie Chart for Energy Sources -->
+            <div class="chart-container">
+                <h4>Energy Cost Breakdown</h4>
+                <canvas id="energyPieChart" width="300" height="300" style="display: block; box-sizing: border-box; height: 300px; width: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="energystarscoremodal" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title custom-modal-title"><span><img height="35px" src="images/lightbulb.png" alt="check"/> Energy Star Score Tips!!</span></h3>
+                </div>
+                <div class="modal-body">
+                    <h5><span><img height="15px" src="images/check.png" alt="check"/> Switch to LED light bulbs</span></h5>
+                    <h5><span><img height="15px" src="images/check.png" alt="check"/> Adjust your thermostat</span></h5>
+                    <h5><span><img height="15px" src="images/check.png" alt="check"/> Seal air leaks</span></h5>
+                    <p>For more infomation on sagving energy tips <a href="https://www.energy.vic.gov.au/households/save-energy-and-money/top-10-energy-saving-tips">click here!</a></p>
+                    <button type="button" onclick="javascript:closeOverAllEnergy()" class="btn btn-secondary btn-sm">Close</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="watersavingmodal" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title custom-modal-title"><span><img height="35px" src="images/lightbulb.png" alt="check"/> Water savings tips!!</span></h3>
+                </div>
+                <div class="modal-body">
+                    <h5><span><img height="15px" src="images/check.png" alt="check"/> Fix Leaks</span></h5>
+                    <h5><span><img height="15px" src="images/check.png" alt="check"/> Use a cover for your pool</span></h5>
+                    <h5><span><img height="15px" src="images/check.png" alt="check"/> Use water wisely</span></h5>
+                    <p>For more infomation on saving water tips <a href="https://www.csemag.com/articles/10-ways-to-save-water-in-commercial-buildings/">click here!</a></p>
+                    <button type="button" onclick="javascript:closewatersavingmodal()" class="btn btn-primary">Close</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="HighWaterModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="bodycontainer">
+                        <img height="40px" src="images/danger.png" alt="check"/>
+                        <h3 class="modal-title custom-modal-title"><span>Property Alert</span></h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="bodycontainer">
+                        <img height="35px" src="images/alert.png" alt="check"/>
+                        <h5 style="margin-top: 8px;"><span>High Water Usage!</span></h5>
+                    </div>
+                    <p>For more infomation on saving water tips <a href="dashboarddetails1.html" onclick="setSelectedProperties()" >click here!</a></p>
+                    <button type="button" onclick="javascript:closehighwatermodal()" class="btn btn-primary">Close</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="HighEnergyModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="bodycontainer">
+                        <img height="40px" src="images/danger.png" alt="check"/>
+                        <h3 class="modal-title custom-modal-title"><span>Property Alert</span></h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="bodycontainer">
+                        <img height="35px" src="images/alert.png" alt="check"/>
+                        <h5 style="margin-top: 8px;"><span>High Energy Usage!</span></h5>
+                    </div>
+                    <p>For more infomation on saving water tips <a href="dashboarddetails1.html" onclick="setSelectedProperties()" >click here!</a></p>
+                    <button type="button" onclick="javascript:closehighenergymodal()" class="btn btn-primary">Close</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="JS/maindashboard.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
