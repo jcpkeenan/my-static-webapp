@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="CSS/site.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <title>Senergy</title>
 <link rel="icon" href="images/logo.png">
 <style>
@@ -59,59 +60,60 @@
                     savings with Senergy? Let us know a bit about yourself 
                     and we will contact you shortly!
                 </h5>
-        
-                <div class="mb-3">
-                    <div class="row">
-                        <label for="firstName" class="col-sm-2 col-form-label label-text">First Name</label>
-                        <div class="col-sm-3">
-                            <input type="text" required name="FirstName" placeholder="John" class="form-control" id="inputFirstName">
+                <form id="contactForm">
+                    <div class="mb-3">
+                        <div class="row">
+                            <label for="firstName" class="col-sm-2 col-form-label label-text">First Name</label>
+                            <div class="col-sm-3">
+                                <input type="text" required name="FirstName" placeholder="John" class="form-control" id="inputFirstName">
+                            </div>
+                            <label for="lastName" class="col-sm-2 col-form-label label-text">Last Name</label>
+                            <div class="col-sm-3">
+                                <input type="text" required name="LastName" placeholder="Doe" class="form-control" id="inputLastName">
+                            </div>
                         </div>
-                        <label for="lastName" class="col-sm-2 col-form-label label-text">Last Name</label>
-                        <div class="col-sm-3">
-                            <input type="text" required name="LastName" placeholder="Doe" class="form-control" id="inputLastName">
+                    </div>
+            
+                    <div class="row mb-3">
+                        <label for="email" class="col-sm-2 col-form-label label-text">Email: </label>
+                        <div class="col-sm-8">
+                            <input type="email" required name="Email" placeholder="john.doe@example.com" class="form-control" id="inputEmail">
                         </div>
                     </div>
-                </div>
-        
-                <div class="row mb-3">
-                    <label for="email" class="col-sm-2 col-form-label label-text">Email: </label>
-                    <div class="col-sm-8">
-                        <input type="email" required name="Email" placeholder="john.doe@example.com" class="form-control" id="inputEmail">
+            
+                    <div class="row mb-3">
+                        <label for="phoneNumber" class="col-sm-2 col-form-label label-text">Phone Number: </label>
+                        <div class="col-sm-8">
+                            <input type="tel" name="PhoneNumber" placeholder="1-(555) 554-5555" class="form-control" id="inputPhoneNumber">
+                        </div>
                     </div>
-                </div>
-        
-                <div class="row mb-3">
-                    <label for="phoneNumber" class="col-sm-2 col-form-label label-text">Phone Number: </label>
-                    <div class="col-sm-8">
-                        <input type="tel" name="PhoneNumber" placeholder="1-(555) 554-5555" class="form-control" id="inputPhoneNumber">
+            
+                    <div class="row mb-3">
+                        <label for="notes" class="col-sm-2 col-form-label label-text">Tell us about your self:</label>
+                        <div class="col-sm-8">
+                            <textarea cols="15" rows="5" name="notes" id="inputNotes" placeholder="Tell us about your self...." class="form-control"></textarea>
+                        </div>
                     </div>
-                </div>
-        
-                <div class="row mb-3">
-                    <label for="notes" class="col-sm-2 col-form-label label-text">Tell us about your self:</label>
-                    <div class="col-sm-8">
-                        <textarea cols="15" rows="5" name="notes" id="inputNotes" placeholder="Tell us about your self...." class="form-control"></textarea>
+            
+                    <!-- Terms and Conditions Checkbox -->
+                    <div class="row mb-3">
+                        <div class="col-sm-2"></div>
+                        <div class="col-10 d-flex align-items-center">
+                                <input class="form-check-input" type="checkbox" id="termsCheckbox">
+                                <label style="margin-left: 15px; margin-top: 10px;">
+                                    I agree to the <a href="termsandconditions.html" target="_blank">Terms and Conditions</a>
+                                </label>
+                        </div>
                     </div>
-                </div>
-        
-                <!-- Terms and Conditions Checkbox -->
-                <div class="row mb-3">
-                    <div class="col-sm-2"></div>
-                    <div class="col-10 d-flex align-items-center">
-                            <input class="form-check-input" type="checkbox" id="termsCheckbox">
-                            <label style="margin-left: 15px; margin-top: 10px;">
-                                I agree to the <a href="termsandconditions.html" target="_blank">Terms and Conditions</a>
-                            </label>
+            
+                    <div class="text-center">
+                        <button class="btn btn-primary" id="submitButton" onclick="sendEmail()" disabled>Submit</button>
                     </div>
-                </div>
-        
-                <div class="text-center">
-                    <button class="btn btn-primary" id="submitButton" onclick="submit()" disabled>Submit</button>
-                </div>
-               
-                <div class="text-center mt-3">
-                    <p>Already have an account? <a href="login.html">Click here!</a></p>
-                </div>
+                   
+                    <div class="text-center mt-3">
+                        <p>Already have an account? <a href="login.html">Click here!</a></p>
+                    </div>
+                </form>
             </div>
         </div>
     
