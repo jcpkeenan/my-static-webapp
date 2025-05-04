@@ -8,6 +8,143 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Senergy</title>
 <link rel="icon" href="images/logo.png">
+
+<style>
+    /* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .navbar-brand {
+        font-size: 24px !important;
+    }
+    
+    .navbar-brand img {
+        height: 35px !important;
+        width: 35px !important;
+    }
+    
+    .ourmissiontitle {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .col-lg-5 {
+        padding: 0 15px;
+    }
+    
+    .card {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .text-center.w-75.m-auto {
+        width: 100% !important;
+    }
+    
+    .loginbottomtext {
+        text-align: center;
+    }
+    
+    /* Mission page responsive */
+    .ourmissiontitle {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.6rem;
+    }
+    
+    .ourmissiontext {
+        font-size: 0.95rem;
+    }
+    
+    /* Adjust column layout for mission page */
+    .row .col-3, .row .col-7 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    .row .col-1 {
+        display: none;
+    }
+    
+    h3 {
+        font-size: 1.4rem;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-brand {
+        font-size: 20px !important;
+    }
+    
+    .navbar-brand img {
+        height: 30px !important;
+        width: 30px !important;
+    }
+    
+    .account-pages {
+        margin-top: 2rem !important;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    h4 {
+        font-size: 1.2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    /* Mission page small screen */
+    .ourmissiontitle {
+        font-size: 1.4rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+    
+    .ourmissiontext {
+        font-size: 0.9rem;
+        padding: 0 10px;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+        margin-top: 25px;
+    }
+}
+
+/* Fix for navbar on smaller screens */
+.navbar-toggler {
+    background-color: white;
+}
+
+.navbar-collapse {
+    background-color: #2c3e50;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Additional responsive helpers */
+@media (max-width: 400px) {
+    .btn-primary {
+        width: 100%;
+    }
+    
+    .navbar-brand span {
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Mission page extra small */
+    .ourmissiontext {
+        padding: 0 5px;
+    }
+}
+</style>
 </head>
 <body>
     <header>
@@ -81,13 +218,6 @@
                      focusing on delivering creative solutions for diverse groups of customers.
                 </p>
             </div>
-            <!-- <div>
-                <h3>Jason Hodge, CTO</h3>
-            </div>
-            <div class="ourmissiontext mb-5">
-                Jason brings over 14 years of software design, coding, and development to Senergy. Jason is creative software architect 
-                with a relentless drive for quality and excellence.  Jason specializes in creating innovative solutions to a wide array of corporate clients
-            </div> -->
         </div>
     </div>
 

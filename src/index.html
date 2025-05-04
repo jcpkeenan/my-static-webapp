@@ -254,9 +254,18 @@
   }
 
   @media (max-width: 768px) {
+    .container{
+        margin: 0px;
+    }
+
     .features-container {
       flex-direction: column;
       align-items: center;
+    }
+
+    #login-ourmission{
+        flex-direction: column;
+        align-items: center;
     }
 
     .row {
@@ -299,8 +308,19 @@
   }
 
   @media (max-width: 480px) {
+    .app-preview{
+        width: 450px;
+    }
+
+    .app-title{
+        font-size: 25px;
+    }
     .logo {
       font-size: 2rem;
+    }
+
+    .hero{
+        padding: 0;
     }
 
     .hero h1 {
@@ -313,6 +333,10 @@
 
     .feature-text h3 {
       font-size: 1.2rem;
+    }
+
+    .dashboard-item h3{
+        font-size: 1.2rem;
     }
 
     .feature-text p {
@@ -343,7 +367,7 @@
             <div class="col-7">
                 <div style="margin-top: 10px; margin-left: -10%; font-size: 24px;"><p>Empowering building owners</p></div>
             </div>
-            <div class="col-2 d-flex">
+            <div id="login-ourmission" class="col-2 d-flex">
                 <a class="nav-link text-white" href="ourmission.html">Our Mission</a>
                 <a class="nav-link text-white" href="login.html">Login</a>
             </div>

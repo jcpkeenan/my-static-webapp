@@ -1,3 +1,46 @@
+$(document).ready(function() {
+    // Fix for navbar toggler on mobile
+    $('.navbar-toggler').on('click', function() {
+        $('#navbarSupportedContent').toggleClass('show');
+    });
+    
+    // Adjust card height on smaller screens
+    function adjustCardHeight() {
+        if (window.innerWidth < 576) {
+            $('.card').css('margin-top', '10px');
+        } else {
+            $('.card').css('margin-top', '');
+        }
+    }
+    
+    // Run on page load
+    adjustCardHeight();
+    
+    // Run on window resize
+    $(window).resize(function() {
+        adjustCardHeight();
+    });
+    
+    // Form validation
+    $('a.btn-primary').on('click', function(e) {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        
+        if (!username || !password) {
+            e.preventDefault();
+            alert('Please fill in all required fields');
+        }
+    });
+    
+    // Fix for iOS input zoom
+    $('input, select, textarea').on('touchstart focusin', function() {
+        $(this).attr('autocomplete', 'off');
+        $(this).attr('autocorrect', 'off');
+        $(this).attr('autocapitalize', 'off');
+        $(this).attr('spellcheck', 'false');
+    });
+});
+
 // Define fake credentials for testing
 const fakeUsername = "admin";
 const fakePassword = "password123";
