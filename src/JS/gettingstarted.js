@@ -1,6 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     emailjs.init('Z2NZNJqJhFU5Oy2fM');
 
+     // Get the navbar toggler button
+     const navbarToggler = document.querySelector('.navbar-toggler');
+    
+     // If the navbar toggler has Bootstrap 5 attributes but we're using Bootstrap 4
+     if (navbarToggler && navbarToggler.getAttribute('data-bs-toggle') === 'collapse') {
+         // Replace Bootstrap 5 attributes with Bootstrap 4 attributes
+         navbarToggler.setAttribute('data-toggle', 'collapse');
+         navbarToggler.setAttribute('data-target', '#navbarSupportedContent');
+         
+         // Remove Bootstrap 5 attributes to prevent conflicts
+         navbarToggler.removeAttribute('data-bs-toggle');
+         navbarToggler.removeAttribute('data-bs-target');
+     }
+
     const termsCheckbox = document.getElementById('termsCheckbox');
     const submitButton = document.getElementById('submitButton');
     
@@ -20,12 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     termsCheckbox.addEventListener('change', updateSubmitButton);
 });
-
-// async function () {
-//     console.log("Start");
-//     await delay(5000); // Waits for 2 seconds
-//     console.log("After 2 seconds");
-//   }
 
 function sendEmail(){
 

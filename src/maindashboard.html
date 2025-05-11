@@ -35,165 +35,378 @@
             </div>
         </nav>
         <style>
-            .savings-container {
-                display: flex;
-                margin-top: 20px;
-                margin-right: 25px;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%; /* Ensure the container takes full width */
-            }
+           /* Responsive CSS that works for both desktop and mobile */
 
-            .value {
-                margin: 0; /* Remove default paragraph margin */
-            }
+/* Base styles */
+* {
+    box-sizing: border-box;
+}
 
-            .metric-container{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%; /* Ensure the container takes full width */
-                position: relative;
-            }
-            .property.selected {
-                background-color: #e0f0ff; /* Light blue background */
-                border: 2px solid #0056a3; /* Blue border */
-            }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-            .checkbox-alert{
-                display: flex;         
-                align-items: center;   
-                gap: 65px;  
-            }
+/* Navbar styling - preserve desktop look */
+.navbar {
+    padding: 0.5rem 1rem;
+}
 
-            input[type="checkbox"] {
-                transform: scale(1.2);    /* Make the checkbox bigger */
-                border-width: 8px;        /* Increase the thickness of the checkbox border */
-                border-color: #000;
-                margin-right: 15px;       /* Set the color of the border */
-                height: 30px;             /* Set height */
-                width: 30px;              /* Set width */
-                cursor: pointer;         /* Add a pointer cursor when hovering */
-            }
-            .alert-message {
-                display: flex;         
-                align-items: center;   
-                gap: 20px;
-            }
-            .property-title {
-                display: flex;                /* Enable flexbox layout */
-                justify-content: space-between;  /* Distribute the items equally */
-                align-items: center;          /* Vertically align items in the center */
-                width: 100%;  
-            }
-            .title-checkbox{
-                margin-right: 10px;
-            }
+.navbar-brand {
+    color: white;
+    font-size: 30px;
+}
 
-            .alert-container {
-            background-color: #FEF2F2;
-            border-radius: 65px;
-            border: red;
-            border-width: 5px;
-            padding: 10px 5px;
-            display: inline-block;
-            position: relative;
-        }
-        
-        .horizontal-stack {
-            display: flex;
-            align-items: center;
-            vertical-align:middle;
-            gap: 5px;
-        }
-        
-        .energy-alert {
-            font-size: 12px;
-            color: #DC2626;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
-        }
-        .bodycontainer{
-            display: flex;
-            gap: 20px;
-        }
+.navbar-brand img {
+    height: 45px;
+    width: 45px;
+}
 
-        /* Tooltip styling */
-        .alert-container .tooltip {
-            visibility: hidden;
-            width: 200px;
-            background-color: #2078b3;
-            color: white;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%; /* Position the tooltip above the alert container */
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
-        }
-        
-        /* Add a little arrow pointing down */
-        .alert-container .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #0056a3 transparent transparent transparent;
-        }
-        
-        /* Show the tooltip when hovering over the alert container */
-        .alert-container:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
+/* Main content layout */
+.mainbody {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+}
 
-        .metric .tooltip {
-            visibility: hidden;
-            width: 200px;
-            background-color: #2078b3;
-            color: white;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%; /* Position the tooltip above the alert container */
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            font-size: 14px;
-        }
-        
-        /* Add a little arrow pointing down */
-        .metric .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #0056a3 transparent transparent transparent;
-        }
-        
-        /* Show the tooltip when hovering over the alert container */
-        .metric:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-        
+.left-panel {
+    width: 60%;
+    padding-right: 20px;
+}
 
+.right-panel {
+    width: 40%;
+    padding-left: 20px;
+}
+
+/* Property styling */
+.property {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.property.selected {
+    background-color: #e0f0ff;
+    border: 2px solid #0056a3;
+}
+
+.property h3 {
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Property title area */
+.property-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.customer-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.title-button {
+    margin: 0 15px;
+}
+
+.title-checkbox {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Checkbox and alert styling */
+.checkbox-alert {
+    display: flex;
+    align-items: center;
+    gap: 65px;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    height: 30px;
+    width: 30px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.alert-message {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.alert-container {
+    background-color: #FEF2F2;
+    border-radius: 65px;
+    padding: 10px 5px;
+    display: inline-block;
+    position: relative;
+}
+
+.horizontal-stack {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    gap: 5px;
+}
+
+.horizontal-stack img {
+    height: 25px;
+}
+
+.energy-alert {
+    font-size: 12px;
+    color: #DC2626;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+}
+
+/* Metrics section */
+.metric {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.metric-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.metric h5 {
+    color: #1f77b4;
+    margin-bottom: 5px;
+}
+
+.value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.savings-container {
+    display: flex;
+    margin-top: 20px;
+    margin-right: 25px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.savings-container img,
+.metric-container img {
+    height: 25px;
+}
+
+/* Chart container */
+.chart-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.chart-container canvas {
+    display: block;
+    box-sizing: border-box;
+    height: 300px;
+    width: 300px;
+}
+
+/* Tooltip styling */
+.alert-container .tooltip,
+.metric .tooltip {
+    visibility: hidden;
+    width: 200px;
+    background-color: #2078b3;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+.alert-container .tooltip::after,
+.metric .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #0056a3 transparent transparent transparent;
+}
+
+.alert-container:hover .tooltip,
+.metric:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Modal styling */
+.modal-dialog {
+    max-width: 500px;
+    margin: 1.75rem auto;
+}
+
+.bodycontainer {
+    display: flex;
+    gap: 20px;
+}
+
+/* Media queries for mobile devices */
+@media (max-width: 768px) {
+    /* Layout changes for mobile */
+    .mainbody {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    /* Navbar adjustments */
+    .navbar-brand {
+        font-size: 24px;
+    }
+    
+    .navbar-brand img {
+        height: 35px;
+        width: 35px;
+    }
+    
+    /* Property title adjustments */
+    .property-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .customer-name {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .title-button {
+        margin: 10px 0;
+        width: 100%;
+    }
+    
+    .title-checkbox {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* Property card adjustments */
+    .property {
+        padding: 10px;
+    }
+    
+    .property h3 {
+        font-size: 1.1rem;
+    }
+    
+    /* Checkbox and alert adjustments */
+    .checkbox-alert {
+        gap: 10px;
+    }
+    
+    input[type="checkbox"] {
+        transform: scale(1.1);
+        height: 25px;
+        width: 25px;
+    }
+    
+    .alert-message {
+        gap: 10px;
+    }
+    
+    /* Chart container adjustments */
+    .chart-container canvas {
+        max-width: 100%;
+        height: auto !important;
+        width: 100% !important;
+    }
+    
+    /* Modal adjustments */
+    .modal-dialog {
+        margin: 10px;
+        max-width: 95%;
+    }
+    
+    .modal-title {
+        font-size: 1.2rem;
+    }
+    
+    .modal-body h5 {
+        font-size: 1rem;
+    }
+}
+
+/* Small phone screens */
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 20px;
+    }
+    
+    .navbar-brand img {
+        height: 30px;
+        width: 30px;
+    }
+    
+    .alert-container {
+        padding: 6px 4px;
+    }
+    
+    .horizontal-stack img {
+        height: 18px;
+    }
+    
+    .energy-alert {
+        font-size: 10px;
+    }
+    
+    .property h3 {
+        font-size: 1rem;
+    }
+    
+    .metric h5 {
+        font-size: 0.9rem;
+    }
+    
+    .value {
+        font-size: 1rem;
+    }
+    
+    .alert-container .tooltip,
+    .metric .tooltip {
+        width: 150px;
+        font-size: 12px;
+    }
+}
         </style>
     </header>
 
