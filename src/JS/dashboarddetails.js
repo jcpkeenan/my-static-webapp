@@ -1,114 +1,52 @@
-function showRegularMenu() {
-    const regularMenu = document.getElementById("regual-side-menu");
-    const smallMenu = document.getElementById("small-side-menu");
+ let canvasWidthValue = 800;
+ let canvasHeightValue = 400;
+
+// Sidebar toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const body = document.body;
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
     
-    if (regularMenu && smallMenu) {
-      // Make sure both menus are initially visible for the animation
-      regularMenu.style.display = "block";
-      regularMenu.style.opacity = "0";
-      regularMenu.style.transform = "translateX(-20px)";
-      
-      // Hide small menu with animation
-      let smallOpacity = 1;
-      let smallTranslate = 0;
-      const smallFadeOut = setInterval(() => {
-        smallOpacity -= 0.1;
-        smallTranslate -= 2;
-        
-        smallMenu.style.opacity = Math.max(0, smallOpacity);
-        smallMenu.style.transform = `translateX(${smallTranslate}px)`;
-        
-        if (smallOpacity <= 0) {
-          clearInterval(smallFadeOut);
-          smallMenu.style.display = "none";
+    // Toggle sidebar when button is clicked
+    sidebarToggle.addEventListener('click', function() {
+        if (body.classList.contains('sidebar-hidden')) {
+            body.classList.remove('sidebar-hidden');
+            body.classList.add('sidebar-shown');
+        } else {
+            body.classList.remove('sidebar-shown');
+            body.classList.add('sidebar-hidden');
         }
-      }, 20);
-      
-      // Show regular menu with animation
-      setTimeout(() => {
-        let regularOpacity = 0;
-        let regularTranslate = -20;
-        const regularFadeIn = setInterval(() => {
-          regularOpacity += 0.1;
-          regularTranslate += 2;
-          
-          regularMenu.style.opacity = Math.min(1, regularOpacity);
-          regularMenu.style.transform = `translateX(${regularTranslate}px)`;
-          
-          if (regularOpacity >= 1) {
-            clearInterval(regularFadeIn);
-          }
-        }, 20);
-      }, 100); // Slight delay before starting the fade in
-    }
-  }
-  
-  // Function to show the small menu and hide the regular menu with animation
-  function showSmallMenu() {
-    const regularMenu = document.getElementById("regual-side-menu");
-    const smallMenu = document.getElementById("small-side-menu");
+    });
     
-    if (regularMenu && smallMenu) {
-      // Make sure small menu is initially visible for the animation
-      smallMenu.style.display = "block";
-      smallMenu.style.opacity = "0";
-      smallMenu.style.transform = "translateX(-20px)";
-      
-      // Hide regular menu with animation
-      let regularOpacity = 1;
-      let regularTranslate = 0;
-      const regularFadeOut = setInterval(() => {
-        regularOpacity -= 0.1;
-        regularTranslate -= 2;
-        
-        regularMenu.style.opacity = Math.max(0, regularOpacity);
-        regularMenu.style.transform = `translateX(${regularTranslate}px)`;
-        
-        if (regularOpacity <= 0) {
-          clearInterval(regularFadeOut);
-          regularMenu.style.display = "none";
+    // Close sidebar when clicking outside of it
+    sidebarOverlay.addEventListener('click', function() {
+        body.classList.remove('sidebar-shown');
+        body.classList.add('sidebar-hidden');
+    });
+    
+    // Close sidebar on window resize if screen becomes larger than mobile
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && body.classList.contains('sidebar-shown')) {
+            body.classList.remove('sidebar-shown');
+            body.classList.add('sidebar-hidden');
         }
-      }, 20);
-      
-      // Show small menu with animation
-      setTimeout(() => {
-        let smallOpacity = 0;
-        let smallTranslate = -20;
-        const smallFadeIn = setInterval(() => {
-          smallOpacity += 0.1;
-          smallTranslate += 2;
-          
-          smallMenu.style.opacity = Math.min(1, smallOpacity);
-          smallMenu.style.transform = `translateX(${smallTranslate}px)`;
-          
-          if (smallOpacity >= 1) {
-            clearInterval(smallFadeIn);
-          }
-        }, 20);
-      }, 100); // Slight delay before starting the fade in
+    });
+});
+
+// Function to update canvas dimensions based on screen size
+function updateCanvasDimensions() {
+    if (window.innerWidth < 768) {
+      // Mobile dimensions
+      canvasWidthValue = 300; // Smaller width for mobile
+      canvasHeightValue = 240; // Smaller height for mobile
+    } else {
+      // Desktop dimensions
+      canvasWidthValue = 800;
+      canvasHeightValue = 400;
     }
   }
   
   // Function to toggle between menu states with animation
-  function toggleMenuSize() {
-    const regularMenu = document.getElementById("regual-side-menu");
-    const smallMenu = document.getElementById("small-side-menu");
-    
-    if (regularMenu && smallMenu) {
-      // Check which menu is currently visible
-      const isRegularVisible = 
-        regularMenu.style.display !== "none" && 
-        (regularMenu.style.opacity === "" || 
-         parseFloat(regularMenu.style.opacity) > 0);
-      
-      if (isRegularVisible) {
-        showSmallMenu();
-      } else {
-        showRegularMenu();
-      }
-    }
-  }
-  
   
         // Main configuration object to store all chart data
   const chartConfig = {
@@ -770,6 +708,33 @@ function showRegularMenu() {
       } else if (viewType === 'yeartodate' || viewType === 'rollingtwelvemonths') {
           createLineChart(utilityType, viewType, action, propType);
       }
+
+      const section = document.getElementById('chart-title');
+      if (section) {
+        // Smooth scroll to the section
+        section.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // If on mobile, close the sidebar after clicking
+        if (window.innerWidth < 768) {
+          document.body.classList.remove('sidebar-shown');
+          document.body.classList.add('sidebar-hidden');
+        }
+      }
+
+      const energydropdown = document.getElementById('energy-dropdown');
+      energydropdown.style.display = energydropdown.style.display = 'none';
+
+      const gasdropdown = document.getElementById('natural-gas-dropdown');
+      gasdropdown.style.display = gasdropdown.style.display = 'none';
+
+      const electricitydropdown = document.getElementById('electricity-dropdown');
+      electricitydropdown.style.display = electricitydropdown.style.display = 'none';
+
+      const waterdropdown = document.getElementById('water-dropdown');
+      waterdropdown.style.display = waterdropdown.style.display = 'none';
   }
   
   function createChartContainer() {
@@ -777,6 +742,9 @@ function showRegularMenu() {
       const container = document.createElement('div');
       container.id = 'chart-container';
       container.className = 'chart-container my-4';
+
+       // Update dimensions based on current screen size
+       updateCanvasDimensions();
       
       // Create HTML structure
       container.innerHTML = `
@@ -786,7 +754,7 @@ function showRegularMenu() {
                   <button id="toggle-units-dollars" class="btn btn-primary">Units / $</button>
               </div>
               <div id="chart-canvas-container" class="col-md-10">
-                  <canvas id="chart-canvas" width="800" height="400"></canvas>
+                  <canvas id="chart-canvas" width="${canvasWidthValue}" height="${canvasHeightValue}"></canvas>
               </div>
               <div id="chart-message" class="col-md-10 alert alert-info" style="display: none;">
                   Please select at least one property to view charts.
@@ -948,20 +916,4 @@ function showRegularMenu() {
       
       // Save back to localStorage
       localStorage.setItem('selectedProperties', JSON.stringify(selectedProperties));
-      
-      // If a chart is currently displayed, refresh it
-      // if (currentChart) {
-      //     // Find the button that was last clicked and simulate a click
-      //     const activeDropdowns = document.querySelectorAll('.dropdown-content[style*="display: block"]');
-      //     if (activeDropdowns.length > 0) {
-      //         const dropdown = activeDropdowns[0];
-      //         const chartType = dropdown.id.split('-')[0]; // energy, water, etc.
-      //         const buttons = dropdown.querySelectorAll('button');
-      //         if (buttons.length > 0) {
-      //             // Find which button has active styling or just pick the first one
-      //             const viewType = buttons[0].textContent.toLowerCase().replace(' ', '');
-      //             displayChart(`${chartType}-${viewType}`, 'units');
-      //         }
-      //     }
-      // }
   }
