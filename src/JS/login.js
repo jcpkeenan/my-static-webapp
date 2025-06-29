@@ -44,9 +44,10 @@ $(document).ready(function() {
 // Define fake credentials for testing
 const fakeUsername = "admin";
 const fakePassword = "password123";
+let jwtToken = null;
 
 // Function to validate login
-function validateLogin(event) {
+async function validateLogin(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
     
@@ -55,12 +56,61 @@ function validateLogin(event) {
     const password = document.getElementById("password").value.trim();
     
     // Check if credentials match
-    if (username === fakeUsername && password === fakePassword) {
-        // Redirect to dashboard on success
-        window.location.href = "maindashboard.html";
-    } else {
-        // Show error message
-        showNotification("Incorrect username or password");
+    // if (username === fakeUsername && password === fakePassword) {
+    //     // Redirect to dashboard on success
+    //     window.location.href = "maindashboard.html";
+    // } else {
+    //     // Show error message
+    //     showNotification("Incorrect username or password");
+    // }
+
+    // Basic validation
+    if (!username || !password) {
+        showNotification("Please enter both email and password");
+        return;
+    }
+
+    try {
+        // Show loading state (optional)
+        showNotification("Authenticating...");
+        
+        // Make API call to authenticate
+        const response = await fetch('https://senergy-webapi.azurewebsites.net/api/User/Authenticate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                EMailAddress: username,
+                Password: password
+            })
+        });
+        
+        // Check if the response is successful
+        if (response.ok) {
+            const result = await response.json();
+            
+            // Store the JWT token in global variable
+            // Adjust the property name based on your API response structure
+            jwtToken = result.Data.JWTModel.EncodedToken;
+            
+            // Optional: Log for debugging (remove in production)
+            console.log('Authentication successful, token stored');
+            
+            // Redirect to dashboard on success
+            window.location.href = "maindashboard.html";
+            
+        } else {
+            // Handle authentication failure
+            const errorData = await response.json().catch(() => ({}));
+            const errorMessage = errorData.message || "Authentication failed";
+            showNotification(errorMessage);
+        }
+        
+    } catch (error) {
+        // Handle network or other errors
+        console.error('Login error:', error);
+        showNotification("Network error. Please try again.");
     }
 }
 
@@ -95,6 +145,21 @@ function showNotification(message) {
     setTimeout(() => {
         notification.remove();
     }, 3000);
+}
+
+// Helper function to get the stored JWT token
+function getJwtToken() {
+    return jwtToken;
+}
+
+// Helper function to clear the JWT token (for logout)
+function clearJwtToken() {
+    jwtToken = null;
+}
+
+// Helper function to check if user is authenticated
+function isAuthenticated() {
+    return jwtToken !== null;
 }
 
 // Add event listener to form submit button

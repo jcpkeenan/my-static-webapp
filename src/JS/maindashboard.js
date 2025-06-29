@@ -4,8 +4,17 @@ $(document).ready(function() {
         $('#navbarSupportedContent').toggleClass('show');
     });
     
-    
+    getDashboardData();
 });
+
+async function getDashboardData(){
+    const token = getJwtToken();
+    
+    if (!token) {
+        console.log('User not authenticated');
+        // Redirect to login or show error
+    }
+}
 
 function openOverAllEnergy() {
     $("#energystarscoremodal").modal('show');
