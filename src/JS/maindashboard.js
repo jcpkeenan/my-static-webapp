@@ -8,12 +8,13 @@ $(document).ready(function() {
 });
 
 async function getDashboardData(){
-    const token = getJwtToken();
+    const token = localStorage.getItem('Token');
     
     if (!token) {
         console.log('User not authenticated');
-        // Redirect to login or show error
     }
+
+    
 }
 
 function openOverAllEnergy() {
@@ -124,7 +125,10 @@ const selectAllCheckbox = document.getElementById('selectAllCheckbox');
     });
 });
 
-
+function logout(){
+    localStorage.removeItem('Token');
+    window.location.href = 'login.html'
+}
 
 function updateMetrics(address, energyStar, eui, wui, ghg, energySavings, waterSavings) {
 document.getElementById('energy-star').innerText = energyStar;

@@ -72,7 +72,7 @@ async function validateLogin(event) {
 
     try {
         // Show loading state (optional)
-        showNotification("Authenticating...");
+        showSuccessNotification("Authenticating...");
         
         // Make API call to authenticate
         const response = await fetch('https://senergy-webapi.azurewebsites.net/api/User/Authenticate', {
@@ -93,6 +93,8 @@ async function validateLogin(event) {
             // Store the JWT token in global variable
             // Adjust the property name based on your API response structure
             jwtToken = result.Data.JWTModel.EncodedToken;
+
+            localStorage.setItem('Token', jwtToken);
             
             // Optional: Log for debugging (remove in production)
             console.log('Authentication successful, token stored');
@@ -147,19 +149,39 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Helper function to get the stored JWT token
-function getJwtToken() {
-    return jwtToken;
-}
-
-// Helper function to clear the JWT token (for logout)
-function clearJwtToken() {
-    jwtToken = null;
-}
-
-// Helper function to check if user is authenticated
-function isAuthenticated() {
-    return jwtToken !== null;
+function showSuccessNotification(message) {
+    // Check if notification container already exists
+    let notificationContainer = document.getElementById("notification-container");
+    
+    // If it doesn't exist, create it
+    if (!notificationContainer) {
+        notificationContainer = document.createElement("div");
+        notificationContainer.id = "notification-container";
+        notificationContainer.style.position = "fixed";
+        notificationContainer.style.bottom = "20px";
+        notificationContainer.style.right = "20px";
+        notificationContainer.style.zIndex = "1000";
+        document.body.appendChild(notificationContainer);
+    }
+    
+    // Create notification element
+    const notification = document.createElement("div");
+    notification.className = "alert alert-success";
+    notification.style.padding = "15px";
+    notification.style.marginBottom = "10px";
+    notification.style.borderRadius = "4px";
+    notification.style.backgroundColor = "#d4edda";
+    notification.style.color = "#155724";
+    notification.style.border = "1px solid #c3e6cb";
+    notification.textContent = message;
+    
+    // Add it to the container
+    notificationContainer.appendChild(notification);
+    
+    // Remove it after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 
 // Add event listener to form submit button
