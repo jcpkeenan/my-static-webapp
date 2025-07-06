@@ -1,71 +1,53 @@
-$(document).ready(function() {
-    // Fix for navbar toggler on mobile
-    $('.navbar-toggler').on('click', function() {
-        $('#navbarSupportedContent').toggleClass('show');
-    });
-    
-    // Adjust card height on smaller screens
-    function adjustCardHeight() {
-        if (window.innerWidth < 576) {
-            $('.card').css('margin-top', '10px');
-        } else {
-            $('.card').css('margin-top', '');
-        }
-    }
-    
-    // Run on page load
-    adjustCardHeight();
-    
-    // Run on window resize
-    $(window).resize(function() {
-        adjustCardHeight();
-    });
-    
-    // Form validation
-    $('a.btn-primary').on('click', function(e) {
-        var username = $('#username').val();
-        var password = $('#password').val();
-        
-        if (!username || !password) {
-            e.preventDefault();
-            alert('Please fill in all required fields');
-        }
-    });
-    
-    // Fix for iOS input zoom
-    $('input, select, textarea').on('touchstart focusin', function() {
-        $(this).attr('autocomplete', 'off');
-        $(this).attr('autocorrect', 'off');
-        $(this).attr('autocapitalize', 'off');
-        $(this).attr('spellcheck', 'false');
-    });
-});
-
-let jwtToken = null;
-
-async function validateLogin(event) {
+async function resetPassword(event){
     event.preventDefault();
     
     // Get the input values and trim whitespace
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const newPassword = document.getElementById("newPassword").value.trim();
     
-    if (!username || !password) {
-        showNotification("Please enter both email and password");
+    if (!email || !newPassword) {
+        showNotification("Fields can not be empty!");
         return;
     }
 
+    // Check length (8-16 characters)
+    if (newPassword.length < 8 || newPassword.length > 16) {
+        showAllPasswordRequirements();
+        return;
+    }
+    
+    // Check for at least one uppercase letter
+    if (!/[A-Z]/.test(newPassword)) {
+        showAllPasswordRequirements();
+        return;
+    }
+    
+    // Check for at least one lowercase letter
+    if (!/[a-z]/.test(newPassword)) {
+        showAllPasswordRequirements();
+        return;
+    }
+
+    // Check for at least one number
+    if (!/[0-9]/.test(newPassword)) {
+        showAllPasswordRequirements();
+        return false;
+    }
+
     try {
-        showSuccessNotification("Authenticating...");
+        showSuccessNotification("Updating...");
+
+        let prodURl = 'https://senergy-webapi.azurewebsites.net/api/User/UpdatePassword';
+        let devURL = 'https://localhost:7287/api/User/UpdatePassword';
         
-        const response = await fetch('https://senergy-webapi.azurewebsites.net/api/User/Authenticate', {
+        const response = await fetch(prodURl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                EMailAddress: username,
-                Password: password
+                Email: email,
+                NewPassword: newPassword
             })
         });
         
@@ -96,7 +78,7 @@ async function validateLogin(event) {
 }
 
 function togglePasswordVisibility() {
-    const passwordField = document.getElementById('password');
+    const passwordField = document.getElementById('newPassword');
     const toggleIcon = document.getElementById('togglePassword');
     
     if (passwordField.type === 'password') {
@@ -108,6 +90,63 @@ function togglePasswordVisibility() {
         toggleIcon.classList.remove('fa-eye-slash');
         toggleIcon.classList.add('fa-eye');
     }
+}
+
+function showAllPasswordRequirements() {
+    let notificationContainer = document.getElementById("notification-container");
+   
+    if (!notificationContainer) {
+        notificationContainer = document.createElement("div");
+        notificationContainer.id = "notification-container";
+        notificationContainer.style.position = "fixed";
+        notificationContainer.style.bottom = "20px";
+        notificationContainer.style.right = "20px";
+        notificationContainer.style.zIndex = "1000";
+        document.body.appendChild(notificationContainer);
+    }
+   
+    const notification = document.createElement("div");
+    notification.className = "alert alert-info"; // Using info style for general requirements
+    notification.style.padding = "15px";
+    notification.style.marginBottom = "10px";
+    notification.style.borderRadius = "4px";
+    notification.style.maxWidth = "300px";
+    
+    // Create the main message
+    const mainMessage = document.createElement("div");
+    mainMessage.innerHTML = "<strong>Password Requirements:</strong>";
+    mainMessage.style.marginBottom = "10px";
+    
+    // Create the requirements list
+    const requirementsList = document.createElement("ul");
+    requirementsList.style.margin = "0";
+    requirementsList.style.paddingLeft = "20px";
+    
+    // All requirements
+    const allRequirements = [
+        "Must be between 8 and 16 characters long",
+        "Must contain at least one uppercase letter (A-Z)",
+        "Must contain at least one lowercase letter (a-z)",
+        "Must contain at least one number (1-9)"
+    ];
+    
+    // Add all requirements to list
+    allRequirements.forEach(req => {
+        const listItem = document.createElement("li");
+        listItem.textContent = req;
+        listItem.style.marginBottom = "5px";
+        requirementsList.appendChild(listItem);
+    });
+    
+    // Append main message and list to notification
+    notification.appendChild(mainMessage);
+    notification.appendChild(requirementsList);
+    
+    notificationContainer.appendChild(notification);
+   
+    setTimeout(() => {
+        notification.remove();
+    }, 7000); // Show for 7 seconds for info message
 }
 
 // Function to display notification
@@ -167,13 +206,3 @@ function showSuccessNotification(message) {
         notification.remove();
     }, 3000);
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    const submitButton = document.querySelector(".btn-primary");
-    
-    if (submitButton) {
-        // Replace the href behavior with our validation function
-        submitButton.removeAttribute("href");
-        submitButton.addEventListener("click", validateLogin);
-    }
-});

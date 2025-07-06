@@ -14,7 +14,7 @@ async function getDashboardData(){
         console.log('User not authenticated');
     }
 
-    
+        
 }
 
 function openOverAllEnergy() {
