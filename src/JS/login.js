@@ -47,7 +47,7 @@ async function validateLogin(event) {
     event.preventDefault();
     
     // Get the input values and trim whitespace
-    const username = document.getElementById("username").value.trim();
+    const username = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     
     if (!username || !password) {
@@ -74,8 +74,12 @@ async function validateLogin(event) {
             const result = await response.json();
             
             jwtToken = result.Data.JWTModel.EncodedToken;
+            let firstName = result.Data.FirstName;
+            let lastName = result.Data.LastName;
 
             localStorage.setItem('Token', jwtToken);
+            localStorage.setItem('FirstName', firstName);
+            localStorage.setItem('LastName', lastName);
             
             console.log('Authentication successful, token stored');
             

@@ -33,6 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function logout(){
+    localStorage.removeItem('Token');
+    localStorage.removeItem('FirstName');
+    localStorage.removeItem('LastName');
+    window.location.href = 'login.html'
+}
+
 // Function to update canvas dimensions based on screen size
 function updateCanvasDimensions() {
     if (window.innerWidth < 768) {
