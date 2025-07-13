@@ -127,6 +127,8 @@ const selectAllCheckbox = document.getElementById('selectAllCheckbox');
 
 function logout(){
     localStorage.removeItem('Token');
+    localStorage.removeItem('FirstName');
+    localStorage.removeItem('LastName');
     window.location.href = 'login.html'
 }
 
